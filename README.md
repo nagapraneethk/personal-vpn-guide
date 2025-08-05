@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A comprehensive, step-by-step guide to creating your own secure, private, and extremely low-cost VPN using WireGuard on a free-tier cloud server.
-
+> ✍️ **Want the full story?** This repository is the technical guide, but the personal journey of debugging and discovery is on Medium. **[Read the companion article here.](https://medium.com/@nagapraneethk/my-college-firewall-blocked-everything-so-i-built-my-own-global-vpn-for-free-8a6425be888a)**
 ### Introduction
 In an age of dwindling digital privacy, taking control of your internet connection is more important than ever. Commercial VPNs are a good option, but they require trusting a third party with your data. This guide walks you through the entire process of building your own VPN server, giving you ultimate control and privacy. This project was born from a real-world need to bypass a highly restrictive network and documents the entire successful setup and troubleshooting process.
 
@@ -78,6 +78,8 @@ This is the most important section, based on real-world problems.
         1.  **Check Network Interface Name:** SSH into the server and run `ip addr`. The main interface is likely `ens4` or `eth0`. Ensure this name is used correctly in the `PostUp` and `PostDown` rules in `/etc/wireguard/wg0.conf`.
         2.  **Verify IP Forwarding:** Run `cat /proc/sys/net/ipv4/ip_forward`. It **must** return `1`.
         3.  **Fix MTU Issues:** If you are on a restrictive network, packet size can be an issue. Edit `/etc/wireguard/wg0.conf` and add `iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu` to your `PostUp`/`PostDown` rules. The full line is in the config template.
+* **Problem: VPN suddenly fails with 'Handshake did not complete', even on a network where it worked before.**
+    * **Solution:** This often happens after testing different connection methods. Check the `Endpoint` address in your client's config file. It must be your server's public IP address (e.g., `198.51.100.123:51820`), **not** a local address like `127.0.0.1`.
 
 ### License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
