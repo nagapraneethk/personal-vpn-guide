@@ -3,16 +3,16 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A comprehensive, step-by-step guide to creating your own secure, private, and extremely low-cost VPN using WireGuard on a free-tier cloud server.
-> ✍️ **Want the full story?** This repository is the technical guide, but the personal journey of debugging and discovery is on Medium. **[Read the companion article here.](https://medium.com/@nagapraneethk/my-college-firewall-blocked-everything-so-i-built-my-own-global-vpn-for-free-8a6425be888a)**
+> **Want the full story?** This repository is the technical guide, but the personal journey of debugging and discovery is on Medium. **[Read the companion article here.](https://medium.com/@nagapraneethk/my-college-firewall-blocked-everything-so-i-built-my-own-global-vpn-for-free-8a6425be888a)**
 ### Introduction
 In an age of dwindling digital privacy, taking control of your internet connection is more important than ever. Commercial VPNs are a good option, but they require trusting a third party with your data. This guide walks you through the entire process of building your own VPN server, giving you ultimate control and privacy. This project was born from a real-world need to bypass a highly restrictive network and documents the entire successful setup and troubleshooting process.
 
 ### Features
-- ✅ **Secure & Modern:** Uses the fast, lean, and highly-regarded WireGuard® protocol.
-- ✅ **Extremely Low-Cost:** Designed to run on "Always Free" or 12-month "Free Tier" accounts from Google Cloud, AWS, and Oracle Cloud.
-- ✅ **Full Control:** You own the server and the data. No third-party logging.
-- ✅ **Comprehensive:** Includes setup, client configuration, and a battle-tested troubleshooting guide.
-- ✅ **(Optional) Network-Wide Ad Blocking:** Can be combined with Pi-hole for blocking ads on all your connected devices.
+- **Secure & Modern:** Uses the fast, lean, and highly-regarded WireGuard® protocol.
+- **Extremely Low-Cost:** Designed to run on "Always Free" or 12-month "Free Tier" accounts from Google Cloud, AWS, and Oracle Cloud.
+-  **Full Control:** You own the server and the data. No third-party logging.
+- **Comprehensive:** Includes setup, client configuration, and a battle-tested troubleshooting guide.
+-  **(Optional) Network-Wide Ad Blocking:** Can be combined with Pi-hole for blocking ads on all your connected devices.
 
 ### Prerequisites
 - A Google Cloud (GCP), AWS, or Oracle Cloud account with a valid payment method for verification (you will not be charged if you stay within the free tier).
@@ -62,7 +62,7 @@ In an age of dwindling digital privacy, taking control of your internet connecti
 
 ---
 
-### 🏆 Troubleshooting Guide
+### Troubleshooting Guide
 This is the most important section, based on real-world problems.
 
 * **Problem: "Handshake did not complete..."**
@@ -80,6 +80,26 @@ This is the most important section, based on real-world problems.
         3.  **Fix MTU Issues:** If you are on a restrictive network, packet size can be an issue. Edit `/etc/wireguard/wg0.conf` and add `iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu` to your `PostUp`/`PostDown` rules. The full line is in the config template.
 * **Problem: VPN suddenly fails with 'Handshake did not complete', even on a network where it worked before.**
     * **Solution:** This often happens after testing different connection methods. Check the `Endpoint` address in your client's config file. It must be your server's public IP address (e.g., `198.51.100.123:51820`), **not** a local address like `127.0.0.1`.
+
+---
+
+### Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this project better, or if you run into an issue while following the guide, the best way to contribute is by **opening an issue** with the "enhancement" or "bug" tag. I'll be happy to look into it!
+
+If you'd like to contribute directly with fixes or documentation improvements, please feel free to fork the repository and open a pull request.
+
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+Don't forget to give the project a star! Thanks again!
+
+---
 
 ### License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
