@@ -44,9 +44,11 @@ In an age of dwindling digital privacy, taking control of your internet connecti
 2.  You can run the installation script provided in this repository for a quick setup:
     ```bash
     # Download the script
-    curl -O [https://raw.githubusercontent.com/nagapraneethk/personal-vpn-guide/main/scripts/install-wireguard.sh](https://raw.githubusercontent.com/nagapraneethk/personal-vpn-guide/main/scripts/install-wireguard.sh)
+    curl -O https://raw.githubusercontent.com/nagapraneethk/personal-vpn-guide/main/scripts/install-wireguard.sh
+
     # Make it executable
     chmod +x install-wireguard.sh
+
     # Run the script
     ./install-wireguard.sh
     ```
