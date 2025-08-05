@@ -1,0 +1,57 @@
+#
+# Server-side WireGuard Configuration
+# Path: /etc/wireguard/wg0.conf
+#
+
+[Interface]
+# The private IP address and subnet for the VPN server itself.
+# All clients will be on this 10.10.0.x network.
+
+Address = 10.10.0.1/24
+
+
+# The port WireGuard will listen on.
+# Remember to open this UDP port in your cloud provider's firewall.
+
+ListenPort = 51820
+
+
+# The server's private key. This is generated on the server.
+# To generate: wg genkey | sudo tee /etc/wireguard/privatekey
+# To view: sudo cat /etc/wireguard/privatekey
+
+PrivateKey = <PASTE_SERVER_PRIVATE_KEY_HERE>
+
+
+# SaveConfig = true will automatically update this file when you add a peer using the `wg set` command.
+# It can be helpful but can also make the file messy. You can set it to `false` if you prefer to manage this file manually.
+
+SaveConfig = true
+
+
+# These commands run when the VPN starts (PostUp) and stops (PostDown).
+# They are CRITICAL for allowing clients to access the internet through the server.
+#
+# NOTE: Replace 'ens4' with your server's main network interface name.
+# Find it by running `ip addr` on your server. It's usually 'ens4' on GCP or 'eth0' on other providers.
+
+
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o ens4 -j MASQUERADE; iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o ens4 -j MASQUERADE; iptables -D FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+
+
+# --- CLIENT PEER SECTIONS ---
+#
+# Add one [Peer] section like the one below for EACH client device you want to connect.
+
+[Peer]
+# A descriptive comment for the client (e.g., # Praneeth's MacBook Air).
+
+PublicKey = <PASTE_CLIENT_1_PUBLIC_KEY_HERE>
+AllowedIPs = 10.10.0.2/32
+
+# To add a second client:
+# [Peer]
+# # Praneeth's iPhone
+# PublicKey = <PASTE_CLIENT_2_PUBLIC_KEY_HERE>
+# AllowedIPs = 10.10.0.3/32
